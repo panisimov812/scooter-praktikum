@@ -1,6 +1,7 @@
 package tests;
 import Steps.MainPageSteps;
 import base.BaseTest;
+import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,8 +50,9 @@ public class FAQParameterizedTest extends BaseTest {
     }
 
     @Test
+    @Description("Проверка текстов из FAQ")
     public void checkFaqAnswer() {
-        mainPageSteps.scrollPageDown(); // Скроллим страницу до блока с вопросами
+        mainPageSteps.scrollToBottomOfPage(); // Скроллим страницу до блока с вопросами
 
         // Проверяем вопрос и ответ
         boolean isAnswerCorrect = mainPageSteps.checkFaqAnswerPar(questionLocator, expectedAnswerText);

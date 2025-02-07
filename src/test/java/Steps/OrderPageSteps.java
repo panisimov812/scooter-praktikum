@@ -9,7 +9,7 @@ public class OrderPageSteps {
         this.orderPage = orderPage;
     }
 
-    public void checkThatOrderPageIsOpened(){
+    public void verifyOrderPageIsOpened(){
         orderPage.isMainTitleDisplayed();
     }
 
@@ -29,7 +29,7 @@ public class OrderPageSteps {
         orderPage.inputPhoneField(phoneValue);
     }
 
-    public void chooseSubWayStation(){
+    public void selectSubwayStation(){
         orderPage.clickToSubWayStationsSelector();
     }
 

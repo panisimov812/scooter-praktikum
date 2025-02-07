@@ -4,18 +4,12 @@ import Steps.MainPageSteps;
 import Steps.OrderPageSteps;
 import Steps.RentPageSteps;
 import base.BaseTest;
+import jdk.jfr.Description;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import pages.MainPage;
 import pages.OrderPage;
 import pages.RentPage;
-
-import java.util.Arrays;
-import java.util.Collection;
-
-import static org.junit.Assert.assertTrue;
 
 
 public class MainPageTests extends BaseTest {
@@ -26,18 +20,21 @@ public class MainPageTests extends BaseTest {
 
     @Before
     public void setUp() {
-        super.setUp(); // Вызов метода setUp() из BaseTest для инициализации WebDriver
-        MainPage mainPage = new MainPage(driver); // Создание экземпляра MainPage
-        mainPageSteps = new MainPageSteps(mainPage); // Инициализация MainPageSteps
+        super.setUp(); // Инициализация WebDriver в BaseTest
 
+        // Инициализация страниц и шагов с готовым driver
+        MainPage mainPage = new MainPage(driver);
         OrderPage orderPage = new OrderPage(driver);
-        orderPageSteps = new OrderPageSteps(orderPage);
-
         RentPage rentPage = new RentPage(driver);
+
+        mainPageSteps = new MainPageSteps(mainPage);
+        orderPageSteps = new OrderPageSteps(orderPage);
         rentPageSteps = new RentPageSteps(rentPage);
     }
 
+
     @Test
+    @Description("Проверка заказа скутера через кнопку 'Заказать' из хедера")
     public void checkOrderOpportunityThrowHeaderButton() {
         String name = "Николай";
         String familyName = "Варлыгов";
@@ -45,29 +42,30 @@ public class MainPageTests extends BaseTest {
         String phoneNumber = "11900005404";
         String comment = "Коментарий 2 для Курьера 2";
 
-        mainPageSteps.clickToOrderButtonByHeader();
+        mainPageSteps.clickOrderButtonFromHeader();
 
-        orderPageSteps.checkThatOrderPageIsOpened();
+        orderPageSteps.verifyOrderPageIsOpened();
         orderPageSteps.inputNameField(name);
         orderPageSteps.inputFamilyNameField(familyName);
         orderPageSteps.inputAddressField(address);
 
         orderPageSteps.inputPhoneField(phoneNumber);
-        orderPageSteps.chooseSubWayStation();
+        orderPageSteps.selectSubwayStation();
         orderPageSteps.clickToNextButton();
 
-        rentPageSteps.checkThatOrderPageIsOpened();
-        rentPageSteps.selectCalendarDate();
+        rentPageSteps.verifyRentPageIsOpened();
+        rentPageSteps.selectDateFromCalendar();
         rentPageSteps.selectPartOfDay();
         rentPageSteps.selectBlackScooterColor();
         rentPageSteps.fillCommentField(comment);
-        rentPageSteps.clickToOrderButtonForCompleteRent();
-        rentPageSteps.checkThatPreCompletePopUpIsOpened();
-        rentPageSteps.clickToAgreeButtonOnPreCompletePopUp();
-        rentPageSteps.checkCompleteScooterOrder();
+        rentPageSteps.clickOrderButtonToCompleteRent();
+        rentPageSteps.verifyPreCompletePopUpIsOpened();
+        rentPageSteps.clickAgreeButtonOnPreCompletePopUp();
+        rentPageSteps.verifyCompleteScooterOrder();
     }
 
     @Test
+    @Description("Проверка заказа скутера через кнопку 'Заказать' из середины страницы")
     public void checkOrderOpportunitySecondButton() {
         String name = "Алексей";
         String familyName = "Иванов";
@@ -75,27 +73,35 @@ public class MainPageTests extends BaseTest {
         String phoneNumber = "11111111111";
         String comment = "Коментарий для Курьера";
 
-        mainPageSteps.scrollPageDown();
-        mainPageSteps.clickToOrderButtonWithRemoveCookiesPopUp();
+        mainPageSteps.scrollToBottomOfPage();
+        mainPageSteps.clickOrderButtonAndCloseCookiesPopup();
 
-        orderPageSteps.checkThatOrderPageIsOpened();
+        orderPageSteps.verifyOrderPageIsOpened();
         orderPageSteps.inputNameField(name);
         orderPageSteps.inputFamilyNameField(familyName);
         orderPageSteps.inputAddressField(address);
 
         orderPageSteps.inputPhoneField(phoneNumber);
-        orderPageSteps.chooseSubWayStation();
+        orderPageSteps.selectSubwayStation();
         orderPageSteps.clickToNextButton();
 
-        rentPageSteps.checkThatOrderPageIsOpened();
-        rentPageSteps.selectCalendarDate();
+        rentPageSteps.verifyRentPageIsOpened();
+        rentPageSteps.selectDateFromCalendar();
         rentPageSteps.selectPartOfDay();
         rentPageSteps.selectBlackScooterColor();
         rentPageSteps.fillCommentField(comment);
-        rentPageSteps.clickToOrderButtonForCompleteRent();
-        rentPageSteps.checkThatPreCompletePopUpIsOpened();
-        rentPageSteps.clickToAgreeButtonOnPreCompletePopUp();
-        rentPageSteps.checkCompleteScooterOrder();
+        rentPageSteps.clickOrderButtonToCompleteRent();
+        rentPageSteps.verifyPreCompletePopUpIsOpened();
+        rentPageSteps.clickAgreeButtonOnPreCompletePopUp();
+        rentPageSteps.verifyCompleteScooterOrder();
+    }
+
+    @Test
+    @Description("Проверка работы возврата на главную страницу")
+    public void checkComeBackToMainPageByScooterLogo() {
+        mainPageSteps.clickOrderButtonFromHeader();
+        mainPageSteps.clickOnScooterLogo();
+        mainPageSteps.verifyFaqTextDisplayed();
     }
 }
 

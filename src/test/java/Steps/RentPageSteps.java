@@ -9,11 +9,11 @@ public class RentPageSteps {
         this.rentPage = rentPage;
     }
 
-    public void checkThatOrderPageIsOpened() {
+    public void verifyRentPageIsOpened() {
         rentPage.isMainTitleDisplayed();
     }
 
-    public void selectCalendarDate() {
+    public void selectDateFromCalendar() {
         rentPage.selectDate();
     }
 
@@ -29,19 +29,19 @@ public class RentPageSteps {
         rentPage.fillCommentField(comment);
     }
 
-    public void clickToOrderButtonForCompleteRent() {
+    public void clickOrderButtonToCompleteRent() {
         rentPage.clickToOrderButton();
     }
 
-    public void checkThatPreCompletePopUpIsOpened() {
+    public void verifyPreCompletePopUpIsOpened() {
         rentPage.isPreCompletePopUpTitleDisplayed();
     }
 
-    public void clickToAgreeButtonOnPreCompletePopUp(){
+    public void clickAgreeButtonOnPreCompletePopUp(){
         rentPage.clickToAgreeButtonOnPreCompletePopUp();
     }
 
-   public void checkCompleteScooterOrder(){
+   public void verifyCompleteScooterOrder(){
         rentPage.checkCompleteTitleFormSuccessPopUp();
    }
 }

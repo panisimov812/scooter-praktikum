@@ -13,33 +13,47 @@ public class MainPageSteps {
     /**
      * Нажатие на кнопку "Заказать" через хедер
      */
-    public void clickToOrderButtonByHeader() {
+    public void clickOrderButtonFromHeader() {
         mainPage.clickOrderButton();
     }
 
     /**
      * Нажатие на кнопку "Заказать"
      */
-    public void clickToOrderButtonWithRemoveCookiesPopUp() {
+    public void clickOrderButtonAndCloseCookiesPopup() {
         mainPage.clickToSecondOrderButton();
     }
 
     /**
-     * Проверка отображения текста "Вопросы о важном"
+     * Прокрутка страницы до конца
      */
-    public void checkFaqTextIsDisplayed() {
-        mainPage.isFaqTextDisplayed();
-    }
-
-    public void scrollPageDown() {
+    public void scrollToBottomOfPage() {
         mainPage.scrollDown();
     }
 
+    /**
+     * Проверка вопросов и ответов
+     * @param questionLocator - получает список из которого заберает вопрос
+     * @param expectedAnswerText - получает список из которого заберает ответ
+     * @return true или false
+     */
     public boolean checkFaqAnswerPar(String questionLocator, String expectedAnswerText) {
         return mainPage.verifyFaqAnswer(questionLocator, expectedAnswerText);
     }
 
+    /**
+     * Метод для клика на лого
+     */
+    public void clickOnScooterLogo(){
+        mainPage.clickToScooterLogo();
+    }
 
+    /**
+     * Провека тайтал из FAQ
+     */
+    public void verifyFaqTextDisplayed(){
+        mainPage.isFaqTextDisplayed();
+    }
 
 }
 
