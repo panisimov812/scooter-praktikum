@@ -6,20 +6,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.JsHelper;
+
 import java.time.Duration;
 
 public class MainPage {
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
+
     private final WebDriver driver;
+
 
     // Локатор
     private final By faqTextLocator = By.xpath("//div[@class='Home_SubHeader__zwi_E' and text()='Вопросы о важном']");
     private final By headerOrderButton = By.xpath("//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
     private final By orderButton = By.xpath("//div[@class='Home_FinishButton__1_cWm']//button[text()='Заказать']");
     private final By scooterLogo = By.xpath("//a[contains(@class, 'Header_LogoScooter')]");
+    private final By clousePopUpCookiesButton = By.xpath("//button[text()='да все привыкли']");
 
     /**
      * Метод для нажатия на кнопку "Заказать" на хедере
@@ -30,13 +33,15 @@ public class MainPage {
 
     /**
      * Метод для нажатия на кнопку "Заказать"
-     * В методе используется метод из класса JsHelper, он удаляет куки (по желанию можешь вынести его в отдельный метод)
      * И в дальнейшем в отдельный шаг
      */
     public void clickToSecondOrderButton() {
-        JsHelper jsHelper = new JsHelper(driver);
-        jsHelper.removeElementByCssSelector(".App_CookieConsent__1yUIN"); // Удаляем баннер cookie
-        driver.findElement(orderButton).click();
+        if (!driver.findElement(clousePopUpCookiesButton).isDisplayed()) {
+            driver.findElement(orderButton).click();
+        } else {
+            clousePopUpCookies();
+            driver.findElement(orderButton).click();
+        }
     }
 
     /**
@@ -56,31 +61,41 @@ public class MainPage {
 
     /**
      * Метод проверки списков
+     *
      * @param questionLocator
      * @param expectedAnswerText
      * @return
      */
     public boolean verifyFaqAnswer(String questionLocator, String expectedAnswerText) {
-        JsHelper jsHelper = new JsHelper(driver);
-        jsHelper.removeElementByCssSelector(".App_CookieConsent__1yUIN"); // Удаляем баннер cookie
-        // Находим элемент вопроса
-        By questionBy = By.xpath(questionLocator);
-        WebElement questionElement = driver.findElement(questionBy);
+        if (!driver.findElement(clousePopUpCookiesButton).isDisplayed()) {
+            driver.findElement(orderButton).click();
+        } else {
+            clousePopUpCookies();
+            // Находим элемент вопроса
+            By questionBy = By.xpath(questionLocator);
+            WebElement questionElement = driver.findElement(questionBy);
 
-        // Кликаем по вопросу, чтобы раскрыть ответ
-        questionElement.click();
+            // Кликаем по вопросу, чтобы раскрыть ответ
+            questionElement.click();
 
-        // Ждём, пока ответ станет видимым (если он скрыт)
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        By answerLocator = By.xpath(questionLocator + "/parent::div/following-sibling::div[@data-accordion-component='AccordionItemPanel']");
-        wait.until(ExpectedConditions.elementToBeClickable(questionBy)).click();
-        WebElement answerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
+            // Ждём, пока ответ станет видимым (если он скрыт)
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            By answerLocator = By.xpath(questionLocator + "/parent::div/" +
+                    "following-sibling::div[@data-accordion-component='AccordionItemPanel']");
+            wait.until(ExpectedConditions.elementToBeClickable(questionBy)).click();
+            WebElement answerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
 
-        // Проверяем текст ответа
-        return answerElement.isDisplayed() && answerElement.getText().trim().equals(expectedAnswerText);
+            // Проверяем текст ответа
+            return answerElement.isDisplayed() && answerElement.getText().trim().equals(expectedAnswerText);
+        }
+        return false;
     }
 
     public void clickToScooterLogo() {
         driver.findElement(scooterLogo).click();
+    }
+
+    public void clousePopUpCookies() {
+        driver.findElement(clousePopUpCookiesButton).click();
     }
 }

@@ -17,9 +17,8 @@ public class OrderPage {
     }
     private final WebDriver driver;
 
-    private final By mainOrderTitle = By.xpath("//div[@class='Order_Header__BZXOb' and text()='Для кого самокат']");
-
     //Локаторы
+    private final By mainOrderTitle = By.xpath("//div[@class='Order_Header__BZXOb' and text()='Для кого самокат']");
     private final By inputNameField = By.xpath("//input[@placeholder='* Имя']");
     private final By inputFamilyNameField = By.xpath("//input[@placeholder='* Фамилия']");
     private final By inputAddressField = By.xpath("//input[@placeholder='* Адрес: куда привезти заказ']");
@@ -51,7 +50,7 @@ public class OrderPage {
     public void clickToSubWayStationsSelector() {
         WebElement dropdown = driver.findElement(subWayStationsSelector);
         dropdown.click();
-        // Выбрать опцию "Черкизовская"
+        // Выбрать станцию метро "Черкизовская"
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement option = wait.until(ExpectedConditions.visibilityOfElementLocated(subWayStationNameCherkizovskaya));
         option.click();
@@ -60,9 +59,4 @@ public class OrderPage {
     public void clickToNextButton() {
         driver.findElement(nextButton).click();
     }
-
-
-
-
-
 }
