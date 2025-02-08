@@ -22,7 +22,7 @@ public class MainPage {
     private final By headerOrderButton = By.xpath("//div[@class='Header_Nav__AGCXC']//button[text()='Заказать']");
     private final By orderButton = By.xpath("//div[@class='Home_FinishButton__1_cWm']//button[text()='Заказать']");
     private final By scooterLogo = By.xpath("//a[contains(@class, 'Header_LogoScooter')]");
-    private final By clousePopUpCookiesButton = By.xpath("//button[text()='да все привыкли']");
+    private final By closePopUpCookiesButton = By.xpath("//button[text()='да все привыкли']");
 
     /**
      * Метод для нажатия на кнопку "Заказать" на хедере
@@ -36,7 +36,7 @@ public class MainPage {
      * И в дальнейшем в отдельный шаг
      */
     public void clickToSecondOrderButton() {
-        if (!driver.findElement(clousePopUpCookiesButton).isDisplayed()) {
+        if (!driver.findElement(closePopUpCookiesButton).isDisplayed()) {
             driver.findElement(orderButton).click();
         } else {
             clousePopUpCookies();
@@ -67,7 +67,7 @@ public class MainPage {
      * @return
      */
     public boolean verifyFaqAnswer(String questionLocator, String expectedAnswerText) {
-        if (!driver.findElement(clousePopUpCookiesButton).isDisplayed()) {
+        if (!driver.findElement(closePopUpCookiesButton).isDisplayed()) {
             driver.findElement(orderButton).click();
         } else {
             clousePopUpCookies();
@@ -96,6 +96,6 @@ public class MainPage {
     }
 
     public void clousePopUpCookies() {
-        driver.findElement(clousePopUpCookiesButton).click();
+        driver.findElement(closePopUpCookiesButton).click();
     }
 }
