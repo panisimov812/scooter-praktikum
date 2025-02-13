@@ -36,18 +36,14 @@ public class MainPage {
      * И в дальнейшем в отдельный шаг
      */
     public void clickToSecondOrderButton() {
-        if (!driver.findElement(closePopUpCookiesButton).isDisplayed()) {
-            driver.findElement(orderButton).click();
-        } else {
-            clousePopUpCookies();
-            driver.findElement(orderButton).click();
-        }
+        closeCookiesIfPresent(); // Закрытие cookies, если они отображается
+        driver.findElement(orderButton).click(); // Кликаем по кнопке Заказать
     }
 
     /**
      * Метод прокрутки страницы вниз
      */
-    public void scrollDown() {
+    public void scrollDownToBottom() {
         driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL, Keys.END);
     }
 
@@ -67,27 +63,26 @@ public class MainPage {
      * @return
      */
     public boolean verifyFaqAnswer(String questionLocator, String expectedAnswerText) {
-        if (!driver.findElement(closePopUpCookiesButton).isDisplayed()) {
-            driver.findElement(orderButton).click();
-        } else {
-            clousePopUpCookies();
-            // Находим элемент вопроса
-            By questionBy = By.xpath(questionLocator);
-            WebElement questionElement = driver.findElement(questionBy);
+        closeCookiesIfPresent(); // Закрытие cookies, если они отображаются
 
-            // Кликаем по вопросу, чтобы раскрыть ответ
-            questionElement.click();
+        // Находим элемент вопроса
+        By questionBy = By.xpath(questionLocator);
+        WebElement questionElement = driver.findElement(questionBy);
 
-            // Ждём, пока ответ станет видимым (если он скрыт)
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            By answerLocator = By.xpath(questionLocator + "/parent::div/" +
-                    "following-sibling::div[@data-accordion-component='AccordionItemPanel']");
-            wait.until(ExpectedConditions.elementToBeClickable(questionBy)).click();
-            WebElement answerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
+        // Кликаем по вопросу, чтобы раскрыть ответ
+        questionElement.click();
 
-            // Проверяем текст ответа
-            return answerElement.isDisplayed() && answerElement.getText().trim().equals(expectedAnswerText);
+        // Ждём, пока ответ станет видимым (если он скрыт)
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        By answerLocator = By.xpath(questionLocator + "/parent::div/" +
+                "following-sibling::div[@data-accordion-component='AccordionItemPanel']");
+        WebElement answerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(answerLocator));
+
+        // Проверяем, что элемент ответа существует и его текст совпадает с ожидаемым
+        if (answerElement != null && answerElement.isDisplayed()) {
+            return answerElement.getText().trim().equals(expectedAnswerText);
         }
+
         return false;
     }
 
@@ -97,5 +92,14 @@ public class MainPage {
 
     public void clousePopUpCookies() {
         driver.findElement(closePopUpCookiesButton).click();
+    }
+
+    /**
+     * Метод для закрытия попапа с cookies, если они отображаются
+     */
+    private void closeCookiesIfPresent() {
+        if (driver.findElement(closePopUpCookiesButton).isDisplayed()) {
+            clousePopUpCookies();
+        }
     }
 }

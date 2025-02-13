@@ -9,12 +9,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class RentPage {
-    public RentPage(WebDriver driver) {
-        this.driver = driver;
-    }
-
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
+    // Локаторы
     private final By mainRentTitle = By.xpath("//div[@class='Order_Header__BZXOb' and text()='Про аренду']");
     private final By dateSelectorPlaceholder = By.xpath("//input[@placeholder='* Когда привезти самокат']");
     private final By dateValue = By.xpath("//div[@class='react-datepicker__month']//div[text()='10']");
@@ -27,35 +25,37 @@ public class RentPage {
     private final By preCompletePopUpAgreeButton = By.xpath("//div[@class='Order_Modal__YZ-d3'] //button[text()='Да']");
     private final By successMessageFromCompletePopUp = By.xpath("//div[@class='Order_ModalHeader__3FDaJ' and text()='Заказ оформлен']");
 
+    // Конструктор класса
+    public RentPage(WebDriver driver) {
+        this.driver = driver;
+        // Инициализируем WebDriverWait с таймаутом для всех элементов
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
     /**
      * Метод для проверки тайтла страницы
      */
-    public void isMainTitleDisplayed() {
-        driver.findElement(mainRentTitle).isDisplayed();
+    public boolean isMainTitleDisplayed() {
+        return driver.findElement(mainRentTitle).isDisplayed();
     }
 
     /**
      * Метод для выбора даты из календаря
      */
     public void selectDate() {
-        // Открыть календарь
+        // Открыть календарь и выбрать дату
         WebElement calendarInput = driver.findElement(dateSelectorPlaceholder);
         calendarInput.click();
-
-        // Выбрать дату "10"
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement dateElement = wait.until(ExpectedConditions.visibilityOfElementLocated(dateValue));
         dateElement.click();
     }
 
     /**
-     * Метод для выбра времени суток
+     * Метод для выбора времени суток
      */
     public void selectPartOfDay() {
         WebElement calendarInput = driver.findElement(rentalPeriodPlaceHolder);
         calendarInput.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement dayElement = wait.until(ExpectedConditions.visibilityOfElementLocated(rentalPeriod));
         dayElement.click();
     }
@@ -68,16 +68,16 @@ public class RentPage {
     }
 
     /**
-     * Метод для  заполнения поля комментария
+     * Метод для заполнения поля комментария
      *
-     * @param commentValue аргумент для передачи коментария
+     * @param commentValue аргумент для передачи комментария
      */
     public void fillCommentField(String commentValue) {
         driver.findElement(commentFieldPlaceholder).sendKeys(commentValue);
     }
 
     /**
-     * Метод для нажатия кнопк "Заказать"
+     * Метод для нажатия кнопки "Заказать"
      */
     public void clickToOrderButton() {
         driver.findElement(orderButton).click();
@@ -86,8 +86,8 @@ public class RentPage {
     /**
      * Метод для проверки тайтла поп-апа
      */
-    public void isPreCompletePopUpTitleDisplayed() {
-        driver.findElement(preCompletePopUpTitle).isDisplayed();
+    public boolean isPreCompletePopUpTitleDisplayed() {
+        return driver.findElement(preCompletePopUpTitle).isDisplayed();
     }
 
     /**
@@ -98,9 +98,9 @@ public class RentPage {
     }
 
     /**
-     * Метод для проверки подтверждения заказ самоката
+     * Метод для проверки подтверждения заказа самоката
      */
-    public void checkCompleteTitleFormSuccessPopUp(){
-        driver.findElement(successMessageFromCompletePopUp).isDisplayed();
+    public boolean checkCompleteTitleFormSuccessPopUp() {
+        return driver.findElement(successMessageFromCompletePopUp).isDisplayed();
     }
 }

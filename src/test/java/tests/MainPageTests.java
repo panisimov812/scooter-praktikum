@@ -32,24 +32,16 @@ public class MainPageTests extends BaseTest {
         rentPageSteps = new RentPageSteps(rentPage);
     }
 
-
     @Test
     @Description("Проверка заказа скутера через кнопку 'Заказать' из хедера")
     public void checkOrderOpportunityThrowHeaderButton() {
-        String name = "Николай";
-        String familyName = "Варлыгов";
-        String address = "Адресс 24";
-        String phoneNumber = "11900005404";
-        String comment = "Коментарий 2 для Курьера 2";
-
         mainPageSteps.clickOrderButtonFromHeader();
 
         orderPageSteps.verifyOrderPageIsOpened();
-        orderPageSteps.inputNameField(name);
-        orderPageSteps.inputFamilyNameField(familyName);
-        orderPageSteps.inputAddressField(address);
-
-        orderPageSteps.inputPhoneField(phoneNumber);
+        orderPageSteps.inputNameField("Николай");
+        orderPageSteps.inputFamilyNameField("Варлыгов");
+        orderPageSteps.inputAddressField("Адресс 24");
+        orderPageSteps.inputPhoneField("11900005404");
         orderPageSteps.selectSubwayStation();
         orderPageSteps.clickToNextButton();
 
@@ -57,7 +49,7 @@ public class MainPageTests extends BaseTest {
         rentPageSteps.selectDateFromCalendar();
         rentPageSteps.selectPartOfDay();
         rentPageSteps.selectBlackScooterColor();
-        rentPageSteps.fillCommentField(comment);
+        rentPageSteps.fillCommentField("Коментарий 2 для Курьера 2");
         rentPageSteps.clickOrderButtonToCompleteRent();
         rentPageSteps.verifyPreCompletePopUpIsOpened();
         rentPageSteps.clickAgreeButtonOnPreCompletePopUp();
@@ -67,21 +59,14 @@ public class MainPageTests extends BaseTest {
     @Test
     @Description("Проверка заказа скутера через кнопку 'Заказать' из середины страницы")
     public void checkOrderOpportunitySecondButton() {
-        String name = "Алексей";
-        String familyName = "Иванов";
-        String address = "Адресс 23";
-        String phoneNumber = "11111111111";
-        String comment = "Коментарий для Курьера";
-
         mainPageSteps.scrollToBottomOfPage();
         mainPageSteps.clickOrderButtonAndCloseCookiesPopup();
 
         orderPageSteps.verifyOrderPageIsOpened();
-        orderPageSteps.inputNameField(name);
-        orderPageSteps.inputFamilyNameField(familyName);
-        orderPageSteps.inputAddressField(address);
-
-        orderPageSteps.inputPhoneField(phoneNumber);
+        orderPageSteps.inputNameField("Алексей");
+        orderPageSteps.inputFamilyNameField("Иванов");
+        orderPageSteps.inputAddressField("Адресс 23");
+        orderPageSteps.inputPhoneField("11111111111");
         orderPageSteps.selectSubwayStation();
         orderPageSteps.clickToNextButton();
 
@@ -89,7 +74,7 @@ public class MainPageTests extends BaseTest {
         rentPageSteps.selectDateFromCalendar();
         rentPageSteps.selectPartOfDay();
         rentPageSteps.selectBlackScooterColor();
-        rentPageSteps.fillCommentField(comment);
+        rentPageSteps.fillCommentField("Коментарий для Курьера");
         rentPageSteps.clickOrderButtonToCompleteRent();
         rentPageSteps.verifyPreCompletePopUpIsOpened();
         rentPageSteps.clickAgreeButtonOnPreCompletePopUp();
@@ -104,5 +89,3 @@ public class MainPageTests extends BaseTest {
         mainPageSteps.verifyFaqTextDisplayed();
     }
 }
-
-

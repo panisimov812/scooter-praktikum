@@ -28,7 +28,7 @@ public class MainPageSteps {
      * Прокрутка страницы до конца
      */
     public void scrollToBottomOfPage() {
-        mainPage.scrollDown();
+        mainPage.scrollDownToBottom();
     }
 
     /**
